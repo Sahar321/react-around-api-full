@@ -1,0 +1,16 @@
+.cards {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: 17px;
+  row-gap: 21px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+@media screen and (max-width: 600px) {
+  .cards {
+    margin-top: 36px;
+  }
+}

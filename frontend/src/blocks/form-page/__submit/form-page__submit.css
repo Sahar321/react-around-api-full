@@ -1,0 +1,23 @@
+.form-page__submit {
+  width: 100%;
+  max-width: 358px;
+  height: 50px;
+  background: #ffffff;
+  border-radius: 2px;
+  border: 2px solid #fff;
+  margin-top: 216px;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #000000;
+  cursor: pointer;
+}
+
+.form-page__submit:hover {
+ opacity: 0.85;
+}
+@media screen and (max-width: 380px) {
+  .form-page__submit {
+    margin-top: 173px;
+  }
+}

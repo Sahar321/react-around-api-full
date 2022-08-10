@@ -1,0 +1,20 @@
+.header__status-container{
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 51px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ffffff;
+    text-decoration: none;
+    margin-top: 51px;
+}
+ 
+@media screen and (max-width: 600px) {
+    .header__status-container    {
+  margin-top: 34px;
+    }
+}  

@@ -1,0 +1,9 @@
+.popup__input_type_error {
+    color: red;
+    grid-area: txtError1;
+    max-width: fit-content;
+}
+
+.popup__input_type_error:nth-of-type(2) {
+    grid-area: txtError2;
+}

@@ -1,0 +1,5 @@
+.header__close{
+    transform: rotate(-45deg);
+    height: 30px;
+    width: 30px;
+}
