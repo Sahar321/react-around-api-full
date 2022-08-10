@@ -234,6 +234,11 @@ function App() {
                 <Redirect to="/signin" />
               )}
             </Route>
+            <Route exact path="*">
+              <span style={{ color: 'white', fontSize: '50px' }}>
+                Page Not Found 404
+              </span>
+            </Route>
           </Switch>
 
           <EditAvatarPopup

@@ -1,25 +1,39 @@
-const mongoose = require('mongoose');
-
-const urlPatren = /^http(s)?:\/\/(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+/* eslint-disable */
+const { isEmail, isURL } = require("validator");
+const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (v) => isEmail(v),
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    minLength: 6,
+  },
   name: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 20,
+    minLength: 2,
+    maxLength: 20,
   },
   about: {
-    type: String, required: true, minlength: 2, maxlength: 20,
+    type: String,
+    required: true,
+    minLength: 2,
+    maxLength: 20,
   },
   avatar: {
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return urlPatren.test(v);
-      },
+      validator: (v) => isURL(v),
     },
   },
 });
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model("user", userSchema);
