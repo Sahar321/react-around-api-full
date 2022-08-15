@@ -1,10 +1,12 @@
+/*eslint-disable*/
 const router = require('express').Router();
 const cards = require('./cards');
 const users = require('./users');
 const signin = require('./signin');
 const signup = require('./signup');
+const authorized = require('../middleware/auth');
 // USE .ALL - POST/GET SHOULD BE INSIDE
-router.all('/cards*', cards);
+router.all('/cards*', authorized, cards);
 router.all('/users*', users);
 
 router.post('/signin', signin);
