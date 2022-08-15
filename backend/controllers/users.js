@@ -27,6 +27,8 @@ const getAllUsers = (req, res) => {
 };
 
 const createNewUser = (req, res) => {
+
+  console.log("sdf");
   const { email, password, name, about, avatar } = req.body;
   bycript
     .hash(password, 10)

@@ -12,7 +12,7 @@ router.all('/users*', authorized, users);
 router.post('/signin', signin);
 router.post('/signup', signup);
 
-router.all('*', authorized,(req, res) => {
+router.all('*',(req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
 });
 
