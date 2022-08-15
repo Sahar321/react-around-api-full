@@ -28,7 +28,6 @@ const getAllUsers = (req, res) => {
 
 const createNewUser = (req, res) => {
   const { email, password, name, about, avatar } = req.body;
-  console.log("SDf");
   bycript
     .hash(password, 10)
     .then((hashed) => {
@@ -65,11 +64,9 @@ const login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(process.env);
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-
       return res.send({ token: token });
     })
     .catch((err) => {
