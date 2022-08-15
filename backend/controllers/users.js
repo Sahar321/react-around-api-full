@@ -65,13 +65,15 @@ const login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      return res.send({ succs: true });
+      console.log(process.env);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
+      return res.send({ token: token });
     })
-    .catch((err) =>
-
-    {
-
-      mongodbError(res, err)
+    .catch((err) => {
+      mongodbError(res, err);
     });
 };
 
