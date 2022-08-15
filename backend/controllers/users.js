@@ -16,7 +16,6 @@ const getUserByID = (req, res) => {
 };
 
 const getAllUsers = (req, res) => {
-console.log("sdf")
   User.find({})
     .orFail(() => {
       const err = new Error("DocumentNotFoundError");
