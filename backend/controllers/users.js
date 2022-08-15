@@ -60,6 +60,18 @@ const updateProfileAvatar = (req, res) => {
     .catch((err) => mongodbError(res, err));
 };
 
+const getUserInfo = (req, res) => {
+  console.log("getUserInfo", req.user);
+  User.findById(req.user._id)
+    .orFail(() => {
+      const err = new Error("DocumentNotFoundError");
+      err.name = "DocumentNotFoundError";
+      throw err;
+    })
+    .then((user) => res.send(user))
+    .catch((err) => mongodbError(res, err));
+};
+
 const login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
@@ -81,6 +93,7 @@ module.exports = {
   updateProfile,
   updateProfileAvatar,
   login,
+  getUserInfo,
 };
 
 /*     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {

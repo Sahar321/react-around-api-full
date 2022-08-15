@@ -8,7 +8,7 @@ console.log(process.env.JWT_SECRET);
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return res
       .status(401)
-      .send({ message: 'Authorization required' });
+      .send({ message: 'auth:Authorization required' });
   }
 
    // auth header exists and is in correct format

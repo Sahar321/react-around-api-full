@@ -7,12 +7,12 @@ const signup = require('./signup');
 const authorized = require('../middleware/auth');
 // USE .ALL - POST/GET SHOULD BE INSIDE
 router.all('/cards*', authorized, cards);
-router.all('/users*', users);
+router.all('/users*', authorized, users);
 
 router.post('/signin', signin);
 router.post('/signup', signup);
 
-router.all('*', (req, res) => {
+router.all('*', authorized,(req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
 });
 
