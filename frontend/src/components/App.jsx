@@ -49,6 +49,7 @@ function App() {
   // #endregion app handlers
 
   // #region Effects
+
   useEffect(() => {
     const handleTokenCheck = () => {
       const token = localStorage.getItem('jwt');
@@ -60,7 +61,10 @@ function App() {
             const { email } = res;
             api
               .getUserInfo()
-              .then((user) => setCurrentUser({ ...user, email: email }))
+              .then((user) => {
+                setCurrentUser(user);
+                console.log(user);
+              })
               .catch(handleError);
             setLoggedIn(true);
             history.push('/profile');
@@ -90,7 +94,7 @@ function App() {
     api
       .setProfileInfo(newUserInfo)
       .then((updatedUserInfo) => {
-        setCurrentUser({ ...updatedUserInfo });
+        setCurrentUser(updatedUserInfo);
         closeAllPopups();
       })
       .catch(handleError);
@@ -100,7 +104,7 @@ function App() {
     api
       .setAvatar(avatar)
       .then((res) => {
-        setCurrentUser({ ...res });
+        setCurrentUser(res);
         closeAllPopups();
       })
       .catch(handleError);
@@ -169,11 +173,10 @@ function App() {
     auth
       .signin(userData)
       .then((res) => {
- 
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
       })
-      .catch(er => console.log('catchhandleLogin',er));
+      .catch((er) => console.log('catchhandleLogin', er));
   };
 
   const handleRegister = (userData) => {
