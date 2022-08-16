@@ -28,7 +28,7 @@ const getAllUsers = (req, res) => {
 
 const createNewUser = (req, res) => {
 
-  console.log("sdf");
+
   const { email, password, name, about, avatar } = req.body;
   bycript
     .hash(password, 10)
@@ -70,11 +70,13 @@ const getUserInfo = (req, res) => {
       err.name = "DocumentNotFoundError";
       throw err;
     })
-    .then((user) => res.send(user))
+    .then((user) => {res.send(user)
+    console.log('usersa',user);})
     .catch((err) => mongodbError(res, err));
 };
 
 const login = (req, res) => {
+
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {

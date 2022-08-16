@@ -56,7 +56,8 @@ function App() {
         auth
           .checkToken(token)
           .then((res) => {
-            const { email } = res.data;
+            console.log(res);
+            const { email } = res;
             api
               .getUserInfo()
               .then((user) => setCurrentUser({ ...user, email: email }))
@@ -168,10 +169,11 @@ function App() {
     auth
       .signin(userData)
       .then((res) => {
+ 
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
       })
-      .catch(handleError);
+      .catch(er => console.log('catchhandleLogin',er));
   };
 
   const handleRegister = (userData) => {

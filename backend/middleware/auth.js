@@ -1,9 +1,10 @@
 /* eslint-disable */
+const jwt = require("jsonwebtoken");
 module.exports = authorized = (req, res, next) => {
-  console.log(req.headers);
+
   // get authorization from the header by destructuring
   const { authorization } = req.headers;
-console.log(process.env.JWT_SECRET);
+
   // check that the header exists and starts with 'Bearer '
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return res
@@ -19,11 +20,12 @@ console.log(process.env.JWT_SECRET);
    let payload;
    try {
      payload = jwt.verify(token, process.env.JWT_SECRET);
+     console.log('payload',payload);
    } catch (err) {
      // otherwise, return an error
      return res
       .status(401)
-      .send({ message: 'payload:Authorization required' });
+      .send({ message: `error:${err}` });
    }
 
    /* Save payload to request. This makes the payload available

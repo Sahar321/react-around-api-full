@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const router = require('express').Router();
 const {
   getUserByID,
@@ -7,7 +8,7 @@ const {
   getUserInfo,
 } = require('../controllers/users');
 
-router.get('/users/:userId', getUserByID);
+// router.get('/users/:userId', getUserByID);
 router.get('/users', getAllUsers);
 router.get('/users/me', getUserInfo);
 

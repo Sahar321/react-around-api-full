@@ -7,7 +7,7 @@ const signup = require('./signup');
 const authorized = require('../middleware/auth');
 // USE .ALL - POST/GET SHOULD BE INSIDE
 router.all('/cards*', authorized, cards);
-router.all('/users*', authorized, users);
+router.all('/users*', authorized,users);
 
 router.post('/signin', signin);
 router.post('/signup', signup);

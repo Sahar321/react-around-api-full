@@ -47,9 +47,10 @@ class Auth {
     });
   };
 }
-
+const token = localStorage.getItem('jwt');
 const auth = new Auth({
   baseUrl: 'http://localhost:3000',
+  authorization: `Bearer ${token}`,
   headers: {
     authorization: '89275f46-d96a-420c-9a94-a2948b040a2e',
     'Content-Type': 'application/json',
