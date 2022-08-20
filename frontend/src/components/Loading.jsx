@@ -1,6 +1,7 @@
 import urlLoading from '../img/loading/loadingGhost.gif';
+import { withRouter } from 'react-router-dom';
 import Image from './Image';
-export default function Loading({ url, isOpen }) {
+ function Loading({ url, isOpen }) {
  
 
   return (
@@ -9,3 +10,5 @@ export default function Loading({ url, isOpen }) {
     </div>
   );
 }
+
+export default withRouter(Loading);

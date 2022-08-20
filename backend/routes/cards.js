@@ -1,22 +1,44 @@
-const router = require('express').Router();
+/*eslint-disable*/
+const router = require("express").Router();
+const { celebrate, Joi } = require("celebrate");
 
 const {
   getAllCards,
   createNewCard,
   deleteCardById,
-  unLike, addLike,
-} = require('../controllers/cards');
+  unLike,
+  addLike,
+} = require("../controllers/cards");
 
-router.get('/cards', getAllCards);
+const ValidationSchema = {
+  createNewCard: celebrate({
+    body: Joi.object()
+      .keys({
+        name: Joi.string().required().min(2).max(30),
+        link: Joi.string().required().uri(),
+        owner: Joi.string().required(),
+        likes: Joi.required(),
+        createdAt: Joi.required(),
+      })
+      .unknown(true),
+  }),
+  cardId: celebrate({
+    body: Joi.object()
+      .keys({
+        email: Joi.string().required(),
+      })
+      .unknown(true),
+  }),
+};
 
-router.post('/cards', createNewCard);
+router.get("/cards", getAllCards);
 
-router.delete('/cards/:cardId', deleteCardById);
+router.post("/cards", ValidationSchema.createNewCard, createNewCard);
 
-router.delete('/cards/:cardId/likes', unLike);
+router.delete("/cards/:cardId", ValidationSchema.cardId, deleteCardById);
 
-router.put('/cards/:cardId/likes', addLike);
-/* PUT /cards/:cardId/likes — like a card
-DELETE /cards/:cardId/likes — unlike a card  */
+router.delete("/cards/:cardId/likes", ValidationSchema.cardId, unLike);
+
+router.put("/cards/:cardId/likes", ValidationSchema.cardId, addLike);
 
 module.exports = router;

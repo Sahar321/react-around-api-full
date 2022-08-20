@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import useScreenWidth from '../utils/effects/useScreenWidth';
 import { mobileWidth } from '../constant/constant';
-
+import { loginState } from '../constant/enums/loginState';
 export function Header({  onLogOut }) {
   const [isMobileHeaderVisible, setIsMobileHeaderVisible] = useState(false);
   const currentUser = useContext(CurrentUserContext);

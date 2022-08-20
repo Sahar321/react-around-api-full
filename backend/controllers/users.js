@@ -1,15 +1,13 @@
 /*eslint-disable*/
 /* eslint-disable no-underscore-dangle */
 const User = require("../models/user");
-const { mongodbError } = require("../utils/mongodbError");
+const  mongodbError  = require("../middleware/errors/mongodbError");
 const bycript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const getUserByID = (req, res) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      const err = new Error("DocumentNotFoundError");
-      err.name = "DocumentNotFoundError";
-      throw err;
+      throw new NotFoundError();
     })
     .then((user) => res.send(user))
     .catch((err) => mongodbError(res, err, "user"));
@@ -18,9 +16,7 @@ const getUserByID = (req, res) => {
 const getAllUsers = (req, res) => {
   User.find({})
     .orFail(() => {
-      const err = new Error("DocumentNotFoundError");
-      err.name = "DocumentNotFoundError";
-      throw err;
+      throw new NotFoundError();
     })
     .then((users) => res.send(users))
     .catch((err) => mongodbError(res, err, "users"));
@@ -66,9 +62,7 @@ const getUserInfo = (req, res) => {
   console.log("getUserInfo", req.user);
   User.findById(req.user._id)
     .orFail(() => {
-      const err = new Error("DocumentNotFoundError");
-      err.name = "DocumentNotFoundError";
-      throw err;
+      throw new NotFoundError();
     })
     .then((user) => {res.send(user)
     console.log('usersa',user);})

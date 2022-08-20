@@ -14,7 +14,6 @@ import { Header } from './Header';
 import { Main } from './Main';
 import { Footer } from './Footer';
 import { Register } from './Register';
-import Loading from './Loading';
 import ProtectedRoute from './ProtectedRoute';
 //model window
 import ImagePopup from './ImagePopup';
@@ -25,12 +24,12 @@ import InfoToolTip from './InfoToolTip';
 //server
 import api from '../utils/api.js';
 import auth from '../utils/auth.js';
-import { Login } from './Login';
-
+import  Login  from './Login';
+import { loginState } from '../constant/enums/loginState';
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [isAppInit, setIsAppInit] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(loginState.PENDING);
+  //const [isAppInit, setIsAppInit] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -42,6 +41,10 @@ function App() {
 
   // #region app handlers
   const handleError = (error) => {
+    console.log('handleError1', loggedIn);
+    console.log('handleError2', currentUser);
+    console.log('handleError3', cards);
+    console.log('handleError3', localStorage.getItem('jwt'));
     const errorText = error.message || error.error || 'something want wrong..';
     setInfoToolTipMessage({ type: 'failed', text: errorText });
     setIsInfoToolTipPopupOpen(true);
@@ -63,14 +66,12 @@ function App() {
               .getUserInfo()
               .then((user) => {
                 setCurrentUser(user);
-                console.log(user);
               })
               .catch(handleError);
-            setLoggedIn(true);
+            setLoggedIn(loginState.LOGGED_IN);
             history.push('/profile');
           })
-          .catch(handleError)
-          .finally(() => setIsAppInit(false));
+          .catch(handleError);
       }
     };
     handleTokenCheck();
@@ -78,7 +79,12 @@ function App() {
 
   // cards
   useEffect(() => {
-    if (!loggedIn) return;
+    console.log('useEffect', loggedIn);
+    if (loggedIn !== loginState.LOGGED_IN) {
+      console.log('useEffect2', loggedIn);
+      return;
+    }
+
     api
       .getInitialCards()
       .then((res) => {
@@ -86,7 +92,7 @@ function App() {
         setCards(res);
       })
       .catch(handleError);
-  }, [loggedIn]);
+  }, [currentUser]);
   //#endregion
 
   // #region User info Handlers
@@ -170,11 +176,12 @@ function App() {
 
   //#region Auth Handlers
   const handleLogin = (userData) => {
+    console.log('asfdsaf2423e32q4sdf', loggedIn, 'loggedIn2');
     auth
       .signin(userData)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
-        setLoggedIn(true);
+        setLoggedIn(loginState.LOGGED_IN);
       })
       .catch((er) => console.log('catchhandleLogin', er));
   };
@@ -195,21 +202,26 @@ function App() {
 
   const handleLogOut = () => {
     setCards([]);
-    setLoggedIn(false);
+    setLoggedIn(loginState.LOGGED_OUT);
     setCurrentUser(null);
     localStorage.removeItem('jwt');
   };
   //#endregion
 
+  switch (loggedIn) {
+  }
+
+  // move to router 6 : https://gist.github.com/mjackson/b5748add2795ce7448a366ae8f8ae3bb
+
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
+ 
           <Switch>
             <ProtectedRoute
               path="/profile"
               loggedIn={loggedIn}
-              isAppInit={isAppInit}
               onCardClick={handleCardClick}
               onHandleAddPlaceClick={handleAddPlaceClick}
               onHandleEditProfileClick={handleEditProfileClick}
@@ -222,18 +234,18 @@ function App() {
             />
 
             <Route path="/signin">
-              <Header loggedIn={loggedIn} />
+              <Header />
               <Login onLogin={handleLogin} />
               <Footer />
             </Route>
             <Route path="/signup">
-              <Header loggedIn={loggedIn} />
+              <Header />
 
               <Register onRegister={handleRegister} />
               <Footer />
             </Route>
             <Route exact path="/">
-              {loggedIn ? (
+              {loggedIn === loginState.LOGGED_IN ? (
                 <Redirect to="/profile" />
               ) : (
                 <Redirect to="/signin" />

@@ -16,9 +16,6 @@ function mongodbError(res, error, resourceName = "resource") {
     case "CastError":
       res.status(400).send({ message: error.message });
       break;
-    case "DocumentNotFoundError":
-      res.status(404).send({ message: `${resourceName} not found` });
-      break;
     case "userNotFound":
       res.status(401).send({ message: `one of the details are not match` });
       break;
@@ -35,6 +32,5 @@ function mongodbError(res, error, resourceName = "resource") {
   }
 }
 
-module.exports = {
-  mongodbError,
-};
+module.exports =  mongodbError
+

@@ -1,15 +1,10 @@
 /* eslint-disable */
 const jwt = require("jsonwebtoken");
+const InValidRequestError =  require("./errors/InValidRequestError");
 module.exports = authorized = (req, res, next) => {
-
-  // get authorization from the header by destructuring
   const { authorization } = req.headers;
-
-  // check that the header exists and starts with 'Bearer '
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res
-      .status(401)
-      .send({ message: 'auth:Authorization required' });
+       throw new InValidRequestError();
   }
 
    // auth header exists and is in correct format
@@ -23,9 +18,7 @@ module.exports = authorized = (req, res, next) => {
      console.log('payload',payload);
    } catch (err) {
      // otherwise, return an error
-     return res
-      .status(401)
-      .send({ message: `error:${err}` });
+    throw new InValidRequestError();
    }
 
    /* Save payload to request. This makes the payload available

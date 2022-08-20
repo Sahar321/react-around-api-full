@@ -1,26 +1,45 @@
 /*eslint-disable*/
+
 require("dotenv").config();
-const express = require("express");
+const fs = require("fs");
+const cors = require("cors");
+const router = require("./routes/router");
 const helmet = require("helmet");
+const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require('cors')
-const router = require("./routes/router");
+const NotFoundError = require("./middleware/errors/NotFoundError");
+const {  errors } = require('celebrate');
 const app = express();
-
+const { requestLogger, errorLogger } = require("./middleware/logger");
+// settings
 const { PORT = 3000 } = process.env;
-mongoose.connect("mongodb://localhost:27017/aroundb");
+const handleMainError = (err, req, res, next) => {
+  console.log("sad");
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? "An error occurred on the server." : message,
+  });
+};
 
-/* app.use((req, res, next) => {
-  req.user = {
-    _id: "62ba2e4ba4013c4c2ba42e7a",
-  };
-  next();
-}); */
+/// Middleware's
+//3rd party middleware
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
-app.use(router);
+// app middleware
+app.use(requestLogger);
 
-app.listen(PORT, () => {});
+app.use(router);
+app.use(errorLogger); // enabling the error logger
+
+//app.use(errors());
+//app.use(handleLogger);
+app.use(errors());
+app.use(handleMainError);
+
+mongoose.connect("mongodb://localhost:27017/aroundb");
+
+app.listen(PORT);

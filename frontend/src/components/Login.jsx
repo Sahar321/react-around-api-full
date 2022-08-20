@@ -1,11 +1,12 @@
 import { useState } from 'react';
- 
-export function Login({ onLogin }) {
+import { withRouter } from 'react-router-dom';
+function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //console.log('login');
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
     onLogin({
       email,
       password
@@ -53,3 +54,5 @@ export function Login({ onLogin }) {
     </div>
   );
 }
+
+export default withRouter(Login);

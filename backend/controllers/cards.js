@@ -1,17 +1,16 @@
-/* eslint-disable no-underscore-dangle */
-
-const Card = require('../models/card');
-const { mongodbError } = require('../utils/mongodbError');
+/* eslint-disable */
+// no-underscore-dangle
+const Card = require("../models/card");
+const  mongodbError  = require("../middleware/errors/mongodbError");
+const NotFoundError = require("../middleware/errors/NotFoundError");
 
 const getAllCards = (req, res) => {
   Card.find({})
     .orFail(() => {
-      const err = new Error('DocumentNotFoundError');
-      err.name = 'DocumentNotFoundError';
-      throw err;
+      throw new NotFoundError();
     })
     .then((cards) => res.send(cards))
-    .catch((err) => mongodbError(res, err, 'cards'));
+    .catch((err) => mongodbError(res, err, "cards"));
 };
 const createNewCard = (req, res) => {
   const { name, link, createdAt } = req.body;
@@ -25,29 +24,25 @@ const createNewCard = (req, res) => {
     createdAt,
   })
     .then((card) => res.send(card))
-    .catch((err) => mongodbError(res, err, 'card'));
+    .catch((err) => mongodbError(res, err, "card"));
 };
 const deleteCardById = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .orFail(() => {
-      const err = new Error('DocumentNotFoundError');
-      err.name = 'DocumentNotFoundError';
-      throw err;
+      throw new NotFoundError();
     })
     .then((card) => res.send(card))
-    .catch((err) => mongodbError(res, err, 'card'));
+    .catch((err) => mongodbError(res, err, "card"));
 };
 
 const unLike = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
-      const err = new Error('DocumentNotFoundError');
-      err.name = 'DocumentNotFoundError';
-      throw err;
+      throw new NotFoundError();
     })
     .then((card) => res.send(card))
     .catch((err) => mongodbError(res, err));
@@ -56,12 +51,10 @@ const addLike = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
-      const err = new Error('DocumentNotFoundError');
-      err.name = 'DocumentNotFoundError';
-      throw err;
+      throw new NotFoundError();
     })
     .then((card) => res.send(card))
     .catch((err) => mongodbError(res, err));
