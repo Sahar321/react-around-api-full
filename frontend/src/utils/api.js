@@ -5,6 +5,8 @@ class Api {
   }
 
   customFetch = (url, options) => {
+    options.headers.authorization = `Bearer ${localStorage.getItem('jwt')}`;
+
     return fetch(url, options).then((res) =>
       res.ok ? res.json() : Promise.reject(res.statusText)
     );
@@ -73,6 +75,7 @@ class Api {
 }
 
 const token = localStorage.getItem('jwt');
+console.log('xxxToekn - api.js - :', token);
 const api = new Api({
   baseUrl: "http://localhost:3000",
   headers: {

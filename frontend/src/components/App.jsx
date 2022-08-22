@@ -21,10 +21,11 @@ import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import InfoToolTip from './InfoToolTip';
+import Loading from './Loading';
 //server
 import api from '../utils/api.js';
 import auth from '../utils/auth.js';
-import  Login  from './Login';
+import Login from './Login';
 import { loginState } from '../constant/enums/loginState';
 function App() {
   const history = useHistory();
@@ -38,13 +39,9 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoToolTipPopupOpen, setIsInfoToolTipPopupOpen] = useState('');
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(null);
-
+  const token = localStorage.getItem('jwt');
   // #region app handlers
   const handleError = (error) => {
-    console.log('handleError1', loggedIn);
-    console.log('handleError2', currentUser);
-    console.log('handleError3', cards);
-    console.log('handleError3', localStorage.getItem('jwt'));
     const errorText = error.message || error.error || 'something want wrong..';
     setInfoToolTipMessage({ type: 'failed', text: errorText });
     setIsInfoToolTipPopupOpen(true);
@@ -54,13 +51,12 @@ function App() {
   // #region Effects
 
   useEffect(() => {
+    console.log('tokenChange', token)
     const handleTokenCheck = () => {
-      const token = localStorage.getItem('jwt');
       if (token) {
         auth
-          .checkToken(token)
+          .checkToken()
           .then((res) => {
-            console.log(res);
             const { email } = res;
             api
               .getUserInfo()
@@ -69,26 +65,23 @@ function App() {
               })
               .catch(handleError);
             setLoggedIn(loginState.LOGGED_IN);
-            history.push('/profile');
+                history.push('/profile');
           })
           .catch(handleError);
       }
     };
     handleTokenCheck();
-  }, [loggedIn]);
+  }, [token]);
 
   // cards
   useEffect(() => {
-    console.log('useEffect', loggedIn);
     if (loggedIn !== loginState.LOGGED_IN) {
-      console.log('useEffect2', loggedIn);
       return;
     }
 
     api
       .getInitialCards()
       .then((res) => {
-        console.log('setCards');
         setCards(res);
       })
       .catch(handleError);
@@ -136,7 +129,7 @@ function App() {
   //#region  Cards Handlers
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const isLiked = card.likes.some((user) => user === currentUser._id);
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -176,7 +169,6 @@ function App() {
 
   //#region Auth Handlers
   const handleLogin = (userData) => {
-    console.log('asfdsaf2423e32q4sdf', loggedIn, 'loggedIn2');
     auth
       .signin(userData)
       .then((res) => {
@@ -208,16 +200,12 @@ function App() {
   };
   //#endregion
 
-  switch (loggedIn) {
-  }
-
   // move to router 6 : https://gist.github.com/mjackson/b5748add2795ce7448a366ae8f8ae3bb
 
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
- 
           <Switch>
             <ProtectedRoute
               path="/profile"

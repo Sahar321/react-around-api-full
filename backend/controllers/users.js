@@ -59,13 +59,11 @@ const updateProfileAvatar = (req, res) => {
 };
 
 const getUserInfo = (req, res) => {
-  console.log("getUserInfo", req.user);
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError();
     })
-    .then((user) => {res.send(user)
-    console.log('usersa',user);})
+    .then((user) => {res.send(user)})
     .catch((err) => mongodbError(res, err));
 };
 

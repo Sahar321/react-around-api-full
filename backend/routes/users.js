@@ -21,7 +21,7 @@ const ValidationSchema = {
   updateProfileAvatar: celebrate({
     body: Joi.object()
       .keys({
-        email: Joi.string().required().uri(),
+        avatar: Joi.string().required().uri(),
       })
       .unknown(true),
   }),

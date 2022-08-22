@@ -15,7 +15,6 @@ const { requestLogger, errorLogger } = require("./middleware/logger");
 // settings
 const { PORT = 3000 } = process.env;
 const handleMainError = (err, req, res, next) => {
-  console.log("sad");
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
     message: statusCode === 500 ? "An error occurred on the server." : message,
