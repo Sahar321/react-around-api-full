@@ -1,5 +1,12 @@
 /*eslint-disable*/
+const NotFoundError = require("./NotFoundError");
+const InValidRequestError = require("./InValidRequestError");
+const NotAuthorizedError = require("./NotAuthorizedError");
+
 function mongodbError(res, error, resourceName = "resource") {
+  const { code, message, name } = error;
+  const { status } = res;
+
   const errorCode = (id) => {
     switch (id) {
       case 11000:
@@ -12,25 +19,24 @@ function mongodbError(res, error, resourceName = "resource") {
         break;
     }
   };
-  switch (error.name) {
+  switch (name) {
     case "CastError":
       res.status(400).send({ message: error.message });
       break;
     case "userNotFound":
       res.status(401).send({ message: `one of the details are not match` });
       break;
-      case "passwordNotMatch":
-        res.status(401).send({ message: `one of the details are not match` });
-        break;
+    case "passwordNotMatch":
+      res.status(401).send({ message: `one of the details are not match` });
+      break;
     case "ValidationError":
       res.status(400).send({ message: error.message });
       break;
 
     default:
-      errorCode(error.code);
+      errorCode(code);
       break;
   }
 }
 
-module.exports =  mongodbError
-
+module.exports = mongodbError;

@@ -1,1 +1,23 @@
-deletecard: check is is same user
+1.The user shouldn't be able to delete other users'
+ cards or edit other users' profiles.
+2. Validating cardID parmas
+3. set PM2 - restert server automtic
+4. - clean project before send
+
+
+
+implemnt errors:
+400 — invalid data passed to the methods for creating a card/user or updating
+a user's profile or avatar.
+• 403 — an attempt to delete someone else's card.
+• 404 — there is no user or card with the requested id or the request is sent to a
+non-existent address.
+• 409 — when registering, an email was specified that already exists on the
+server.
+• 500 — default error. Accompanied by the message: "An error has occurred on
+the server"
+
+5. Centralized error handling inside a single middleware function has been
+implemented.
+
+? may fix bug when not have cards

@@ -11,6 +11,12 @@ const { celebrate, Joi } = require('celebrate');
 router.all('/cards*', authorized, cards);
 router.all('/users*', authorized,users);
 
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 router.all('/signin', signin);
 router.all('/signup', signup);
 

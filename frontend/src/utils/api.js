@@ -1,14 +1,18 @@
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
+
     this._headers = { headers: headers };
   }
 
   customFetch = (url, options) => {
-    options.headers.authorization = `Bearer ${localStorage.getItem('jwt')}`;
+    const token = localStorage.getItem('jwt')
+    options.headers.authorization = `Bearer ${token}`;
 
-    return fetch(url, options).then((res) =>
-      res.ok ? res.json() : Promise.reject(res.statusText)
+    return fetch(url, options).then(
+      async (res) => (res.ok ? res.json() : Promise.reject(await res.json()))
+      // wait error message(and not only the status code)
+      // from the server.
     );
   };
 
@@ -22,16 +26,15 @@ class Api {
 
   createNewCard(data) {
     return this.customFetch(`${this._baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers.headers,
       body: JSON.stringify(data),
     });
   }
 
   setProfileInfo(data) {
-
     return this.customFetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers.headers,
       body: JSON.stringify(data),
     });
@@ -39,50 +42,44 @@ class Api {
 
   deleteCard(cardId) {
     return this.customFetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers.headers,
     });
   }
 
   changeLikeCardStatus(cardId, isLiked) {
-
-    return isLiked ? this.addLike(cardId) : this.removeLike(cardId)
+    return isLiked ? this.addLike(cardId) : this.removeLike(cardId);
   }
 
   addLike(cardId) {
-
     return this.customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: this._headers.headers,
     });
   }
 
   removeLike(cardId) {
-
     return this.customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers.headers,
     });
   }
 
   setAvatar(link) {
     return this.customFetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers.headers,
       body: JSON.stringify(link),
     });
   }
 }
 
-const token = localStorage.getItem('jwt');
-console.log('xxxToekn - api.js - :', token);
 const api = new Api({
-  baseUrl: "http://localhost:3000",
+  baseUrl: 'http://localhost:3000',
   headers: {
-    authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
 });
 
-
-export default api
+export default api;

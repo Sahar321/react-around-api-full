@@ -2,10 +2,14 @@
 class Auth {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
-    this._headers = { headers: headers };
+ 
+    this._headers = {headers:headers};
+ 
   }
+  
   customFetch = (url, options) => {
-    options.headers.authorization = `Bearer ${localStorage.getItem('jwt')}`;
+    const token = localStorage.getItem('jwt')
+    options.headers.authorization = `Bearer ${token}`;
 
     return fetch(url, options).then(
       async (res) => (res.ok ? res.json() : Promise.reject(await res.json()))
@@ -40,12 +44,10 @@ class Auth {
 
 const token = localStorage.getItem('jwt');
 const auth = new Auth({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: "http://localhost:3000",
   headers: {
-    //  authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     Accept: 'application/json',
   },
 });
-
 export default auth;

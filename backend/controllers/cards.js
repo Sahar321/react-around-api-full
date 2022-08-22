@@ -1,9 +1,9 @@
 /* eslint-disable */
 // no-underscore-dangle
 const Card = require("../models/card");
-const  mongodbError  = require("../middleware/errors/mongodbError");
+const mongodbError = require("../middleware/errors/mongodbError");
 const NotFoundError = require("../middleware/errors/NotFoundError");
-
+const ObjectId = require("mongodb").ObjectId;
 const getAllCards = (req, res) => {
   Card.find({})
     .orFail(() => {
@@ -27,7 +27,10 @@ const createNewCard = (req, res) => {
     .catch((err) => mongodbError(res, err, "card"));
 };
 const deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findOneAndRemove({
+    _id: ObjectId(req.params.cardId),
+    owner: ObjectId(req.user._id),
+  })
     .orFail(() => {
       throw new NotFoundError();
     })
