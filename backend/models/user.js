@@ -1,7 +1,7 @@
 /* eslint-disable */
 const { isEmail, isURL } = require("validator");
 const mongoose = require("mongoose");
-const  mongodbError  = require("../middleware/errors/mongodbError");
+const mongodbError = require("../middleware/errors/mongodbError");
 const bycript = require("bcryptjs");
 const userSchema = mongoose.Schema({
   email: {
@@ -12,6 +12,8 @@ const userSchema = mongoose.Schema({
       validator: (email) => isEmail(email),
       message: "Invalid email",
     },
+    lowercase: true,
+    trim: true,
   },
   password: {
     type: String,
