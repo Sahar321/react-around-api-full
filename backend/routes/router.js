@@ -21,7 +21,7 @@ router.all('/signin', signin);
 router.all('/signup', signup);
 
 router.all('*',(req, res) => {
-  res.status(404).json({ message: 'Requested resource not found' });
+  res.status(404).json({ message: 'Requested resource not found!' });
 });
 
 module.exports = router;
