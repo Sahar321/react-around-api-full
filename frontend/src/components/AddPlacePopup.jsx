@@ -38,7 +38,7 @@ function AddPlacePopup({
         className="textbox popup__input"
         type="text"
         required
-        minLength="1"
+        minLength="2"
         maxLength="30"
         name="name"
         id="cardTitle"
