@@ -1,7 +1,7 @@
 class NotAuthorizedError extends Error {
   constructor(message) {
-    super(message || 'The request is unauthorized');
-    this.statusCode = 401;
+    super(message || 'You do not have permissions to perform this action.');
+    this.statusCode = 403;
   }
 }
 

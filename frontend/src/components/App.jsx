@@ -41,17 +41,17 @@ function App() {
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(null);
   const token = localStorage.getItem('jwt');
   // #region app handlers
-  const handleError = (error) => {
-    const errorText = error.message || error.error || 'something want wrong..';
+  const handleError = ({ message, showError = true }) => {
+    const errorText = message || 'something want wrong..';
     setInfoToolTipMessage({ type: 'failed', text: errorText });
-    setIsInfoToolTipPopupOpen(true);
+    setIsInfoToolTipPopupOpen(showError);
   };
   // #endregion app handlers
 
   // #region Effects
 
   useEffect(() => {
-    console.log('tokenChange', token)
+    console.log('tokenChange', token);
     const handleTokenCheck = () => {
       if (token) {
         auth
@@ -65,7 +65,7 @@ function App() {
               })
               .catch(handleError);
             setLoggedIn(loginState.LOGGED_IN);
-                history.push('/profile');
+            history.push('/profile');
           })
           .catch(handleError);
       }
@@ -84,7 +84,10 @@ function App() {
       .then((res) => {
         setCards(res);
       })
-      .catch(handleError);
+      .catch((err) => {
+        console.log(err);
+        handleError(err);
+      }); //handleError
   }, [currentUser]);
   //#endregion
 
@@ -233,11 +236,12 @@ function App() {
               <Footer />
             </Route>
             <Route exact path="/">
-              {loggedIn === loginState.LOGGED_IN ? (
-                <Redirect to="/profile" />
-              ) : (
-                <Redirect to="/signin" />
-              )}
+              {loggedIn !== loginState.PENDING &&
+                (loggedIn === loginState.LOGGED_IN ? (
+                  <Redirect to="/profile" />
+                ) : (
+                  <Redirect to="/signin" />
+                ))}
             </Route>
             <Route exact path="*">
               <span style={{ color: 'white', fontSize: '50px' }}>

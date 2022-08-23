@@ -9,7 +9,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const NotFoundError = require("./middleware/errors/NotFoundError");
-const {  errors } = require('celebrate');
+const { errors } = require("celebrate");
 const app = express();
 const { requestLogger, errorLogger } = require("./middleware/logger");
 // settings
@@ -32,10 +32,30 @@ app.use(cors());
 app.use(requestLogger);
 
 app.use(router);
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message, code } = err;
+  switch (true) {
+    case message === "Validation failed":
+      res.status(400).send({
+        message: "Data passed is invalid",
+      });
+      break;
+    case code === 11000: // monogo error code: duplicate:
+      const itemExist = Object.keys(err.keyValue)[0];
+      res.status(409).send({
+        message: `${itemExist} already exist`,
+      });
+      break;
+    default:
+      res.status(500).send({
+        message: "An error occurred on the server",
+      });
+      break;
+  }
+});
 app.use(errorLogger); // enabling the error logger
 
-//app.use(errors());
-//app.use(handleLogger);
 app.use(errors());
 app.use(handleMainError);
 

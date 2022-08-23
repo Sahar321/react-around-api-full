@@ -1,74 +1,80 @@
 /*eslint-disable*/
 /* eslint-disable no-underscore-dangle */
 const User = require("../models/user");
-const  mongodbError  = require("../middleware/errors/mongodbError");
 const bycript = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const getUserByID = (req, res) => {
+const NotFoundError = require("../middleware/errors/NotFoundError");
+const NotAuthorizedError = require("../middleware/errors/NotAuthorizedError");
+const getUserByID = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError("User not found");
     })
     .then((user) => res.send(user))
-    .catch((err) => mongodbError(res, err, "user"));
+    .catch((err) => next(err));
 };
 
-const getAllUsers = (req, res) => {
+const getAllUsers = (req, res, next) => {
   User.find({})
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError("Users are empty");
     })
     .then((users) => res.send(users))
-    .catch((err) => mongodbError(res, err, "users"));
+    .catch((err) => next(err));
 };
 
-const createNewUser = (req, res) => {
-
-
+const createNewUser = (req, res, next) => {
   const { email, password, name, about, avatar } = req.body;
   bycript
     .hash(password, 10)
     .then((hashed) => {
       User.create({ email, password: hashed, name, about, avatar })
         .then((user) => res.send({ _id: user._id, email: user.email }))
-        .catch((err) => mongodbError(res, err));
+        .catch((err) => next(err));
     })
-    .catch((err) => {});
+    .catch((err) => next(err));
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
     { new: true, runValidators: true, upsert: true }
   )
+    .orFail(() => {
+      throw new NotFoundError("Profile not exist");
+    })
     .then((user) => res.send(user))
-    .catch((err) => mongodbError(res, err));
+    .catch((err) => next(err));
 };
 
-const updateProfileAvatar = (req, res) => {
+const updateProfileAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
     { new: true, runValidators: true, upsert: true }
   )
+    .orFail(() => {
+      throw new NotFoundError("Profile not exist");
+    })
     .then((user) => res.send(user))
-    .catch((err) => mongodbError(res, err));
+    .catch((err) => next(err));
 };
 
-const getUserInfo = (req, res) => {
+const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      throw new NotFoundError();
+      throw new NotFoundError("User not exist");
     })
-    .then((user) => {res.send(user)})
-    .catch((err) => mongodbError(res, err));
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => next(err));
 };
 
-const login = (req, res) => {
-
+const login = (req, res,next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
@@ -77,9 +83,7 @@ const login = (req, res) => {
       });
       return res.send({ token: token });
     })
-    .catch((err) => {
-      mongodbError(res, err);
-    });
+    .catch((err) => next(err));
 };
 
 module.exports = {
@@ -92,11 +96,4 @@ module.exports = {
   getUserInfo,
 };
 
-/*     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
 
-    {
-      token;
-    }
- */
