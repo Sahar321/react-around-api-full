@@ -75,7 +75,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: "http://api.sam.students.nomoredomainssbs.ru", //"http://api.sam.students.nomoredomainssbs.ru", "http://localhost:3000"
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

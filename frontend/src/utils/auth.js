@@ -44,7 +44,7 @@ class Auth {
 
 const token = localStorage.getItem('jwt');
 const auth = new Auth({
-  baseUrl: "http://localhost:3000",
+  baseUrl:  "http://api.sam.students.nomoredomainssbs.ru",  //"http://api.sam.students.nomoredomainssbs.ru", "http://localhost:3000"
   headers: {
     "Content-Type": "application/json",
     Accept: 'application/json',

@@ -1,0 +1,13 @@
+
+  /home/
+     # Run this locally from the frontend folder
+  scp -r -i ~/.ssh/id_ed25519 ./build/* sam.students.nomoredomainssbs.ru:/home/saharm123456/reactFrontend
+  
+
+  scp -r -i path/to/ssh/key ./build/* practicumuser@domainname.students.nomoreparties.site:/home/practicumuser/around-frontend
+
+"deploy": "npm run build && scp -r ./build/* ./build/* saharm123456@35.230.98.3:/home/saharm123456/reactFrontend""
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGdhVtfQZ0e1IvtXpT9fs/N59nl7/U/GlzGleR8NRCuO 
+ 
+    scp -r -i ~/.ssh/id_ed25519 ./build/* saharm123456@35.230.98.3:/home/saharm123456/reactFrontend
