@@ -38,7 +38,7 @@ app.use(requestLogger);
 app.get('*', function(req, res){
   //process request here and do your db queries
   //then send response. may be json response
-  res.send({success: true});
+  res.send({succesasds: true});
 });
 app.use(router);
 
