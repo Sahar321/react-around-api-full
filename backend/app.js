@@ -35,11 +35,7 @@ app.use(
 // app middleware
 app.use(requestLogger);
 
-app.get('*', function(req, res){
-  //process request here and do your db queries
-  //then send response. may be json response
-  res.send({succesasds: true});
-});
+
 app.use(router);
 
 app.use((err, req, res, next) => {
