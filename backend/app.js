@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
       break;
     default:
       res.status(500).send({
-        message: message + "sdfsd",
+        message: err.stack ,
       });
       break;
   }
