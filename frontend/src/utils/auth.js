@@ -47,7 +47,7 @@ const one1 = 'http://localhost:3000'
 const one2 = 'https://api.sam.students.nomoredomainssbs.ru'
  
 const auth = new Auth({
-  baseUrl:   one1,
+  baseUrl:   one2,
   headers: {
     "Content-Type": "application/json",
     Accept: 'application/json',
