@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
       break;
     default:
       res.status(500).send({
-        message: "An error occurred on the server",
+        message: message,
       });
       break;
   }

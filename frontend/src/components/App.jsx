@@ -51,7 +51,7 @@ function App() {
   // #region Effects
 
   useEffect(() => {
-    console.log('tokenChange', token);
+
     const handleTokenCheck = () => {
       if (token) {
         auth
