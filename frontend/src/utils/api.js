@@ -77,7 +77,7 @@ class Api {
 const one1 = 'http://localhost:3000'
 const one2 = 'https://api.sam.students.nomoredomainssbs.ru'
 const api = new Api({
-  baseUrl: one2, //  "http://localhost:3000"
+  baseUrl: one1, //  "http://localhost:3000"
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

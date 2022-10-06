@@ -51,7 +51,6 @@ function App() {
   // #region Effects
 
   useEffect(() => {
-
     const handleTokenCheck = () => {
       if (token) {
         auth
@@ -236,12 +235,11 @@ function App() {
               <Footer />
             </Route>
             <Route exact path="/">
-              {loggedIn !== loginState.PENDING &&
-                (loggedIn === loginState.LOGGED_IN ? (
-                  <Redirect to="/profile" />
-                ) : (
-                  <Redirect to="/signin" />
-                ))}
+              (loggedIn === loginState.LOGGED_IN ? (
+              <Redirect to="/profile" />
+              ) : (
+              <Redirect to="/signin" />
+              ))
             </Route>
             <Route exact path="*">
               <span style={{ color: 'white', fontSize: '50px' }}>
