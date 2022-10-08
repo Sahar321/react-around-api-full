@@ -27,14 +27,9 @@ const handleMainError = (err, req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+res.header("Access-Control-Allow-Origin", "*");
 // app middleware
 app.use(requestLogger);
-
 
 app.use(router);
 
@@ -54,7 +49,7 @@ app.use((err, req, res, next) => {
       break;
     default:
       res.status(500).send({
-        message: err.stack ,
+        message: err.stack,
       });
       break;
   }
