@@ -44,7 +44,7 @@ class Auth {
 
 const token = localStorage.getItem('jwt');
 const one1 = 'http://localhost:3000'
-const one2 = 'https://api.sam.students.nomoredomainssbs.ru/'
+const one2 = 'http://api.sam.students.nomoredomainssbs.ru'
  
 const auth = new Auth({
   baseUrl:   one2,
