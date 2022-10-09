@@ -27,11 +27,7 @@ const handleMainError = (err, req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+
 res.header("Access-Control-Allow-Origin", "*");
 
 
