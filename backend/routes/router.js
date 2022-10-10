@@ -19,6 +19,9 @@ router.get('/crash-test', () => {
 
 router.all('/signin', signin);
 router.all('/signup', signup);
+router.get('/test', (req,res) =>{
+res.send("server work")
+});
 
 router.all('*',(req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
