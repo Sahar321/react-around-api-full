@@ -16,7 +16,6 @@ module.exports = authorized = (req, res, next) => {
     payload = jwt.verify(token, process.env.JWT_SECRET);
 
   } catch (err) {
-    console.log(err, req.originalUrl);
     // otherwise, return an error
     throw new InValidRequestError();
   }

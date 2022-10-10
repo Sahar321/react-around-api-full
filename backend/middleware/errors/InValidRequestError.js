@@ -1,7 +1,10 @@
+/*eslint-disable*/
 class InValidRequestError extends Error {
-  constructor(message) {
-    super(message || 'request is invalid');
+  constructor(showError, message) {
+    super(message || "request is invalid");
     this.statusCode = 400;
+    this.showError = showError;
+    this.error = message || "request is invalid";
   }
 }
 

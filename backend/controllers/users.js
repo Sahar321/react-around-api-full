@@ -29,10 +29,19 @@ const createNewUser = (req, res, next) => {
     .hash(password, 10)
     .then((hashed) => {
       User.create({ email, password: hashed, name, about, avatar })
-        .then((user) => res.send({ _id: user._id, email: user.email }))
-        .catch((err) => next(err));
+        .then((user) => {
+
+          res.send({ _id: user._id, email: user.email });
+        })
+        .catch((err) => {
+          err.mongoMessage = err.message
+          err.message = "email is alarady exist"
+          next(err);
+        });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      next(err);
+    });
 };
 
 const updateProfile = (req, res, next) => {
@@ -74,7 +83,7 @@ const getUserInfo = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-const login = (req, res,next) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
@@ -95,5 +104,3 @@ module.exports = {
   login,
   getUserInfo,
 };
-
-

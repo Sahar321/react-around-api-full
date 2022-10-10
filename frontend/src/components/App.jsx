@@ -38,11 +38,14 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoToolTipPopupOpen, setIsInfoToolTipPopupOpen] = useState('');
-  const [infoToolTipMessage, setInfoToolTipMessage] = useState(null);
+  const [infoToolTipMessage, setInfoToolTipMessage] = useState({
+    type: '',
+    text: '',
+  });
   const token = localStorage.getItem('jwt');
   // #region app handlers
-  const handleError = ({ message, showError = true }) => {
-    const errorText = message || 'something want wrong..';
+  const handleError = ({ error, showError }) => {
+    const errorText = error || 'something want wrong..';
     setInfoToolTipMessage({ type: 'failed', text: errorText });
     setIsInfoToolTipPopupOpen(showError);
   };
@@ -191,7 +194,9 @@ function App() {
         setIsInfoToolTipPopupOpen(true);
         history.push('/signin');
       })
-      .catch(handleError);
+      .catch((e) => {
+        handleError(e);
+      });
   };
 
   const handleLogOut = () => {

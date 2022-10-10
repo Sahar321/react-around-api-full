@@ -3,17 +3,21 @@
 const Card = require("../models/card");
 const NotFoundError = require("../middleware/errors/NotFoundError");
 const NotAuthorizedError = require("../middleware/errors/NotAuthorizedError");
-const {ObjectId} = require("mongodb");
+const { ObjectId } = require("mongodb");
 
-const getAllCards = (req, res,next) => {
+const getAllCards = (req, res, next) => {
   Card.find({})
     .orFail(() => {
       throw new NotFoundError("Cards Are Empty", false);
     })
-    .then((cards) => res.send(cards))
-    .catch((err) => next(err));
+    .then((cards) => {
+      res.send(cards);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
-const createNewCard = (req, res,next) => {
+const createNewCard = (req, res, next) => {
   const { name, link, createdAt } = req.body;
   const owner = req.user._id;
   const likes = [];
@@ -33,15 +37,17 @@ const deleteCardById = (req, res, next) => {
     owner: ObjectId(req.user._id),
   })
     .orFail(() => {
-      throw new NotAuthorizedError();
+      throw new NotAuthorizedError(true);
     })
     .then((card) => {
       res.send(card);
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      next(err);
+    });
 };
 
-const unLike = (req, res,next) => {
+const unLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
@@ -53,7 +59,7 @@ const unLike = (req, res,next) => {
     .then((card) => res.send(card))
     .catch((err) => next(err));
 };
-const addLike = (req, res,next) => {
+const addLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
