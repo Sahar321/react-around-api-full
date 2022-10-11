@@ -11,17 +11,12 @@ const app = express();
 const { requestLogger, errorLogger } = require('./middleware/logger');
 // settings
 const { PORT = 3000 } = process.env;
-const handleMainError = (err, req, res) => {
+const handleMainError = (err, req, res, next) => {
   const { statusCode, code } = err;
   const errorInfoToClient = {
     statusCode: 409,
     error: 'email is already exists',
     showError: true,
-  };
-  const SendInternalServerError = () => {
-    res.status(500).send({
-      error: 'An error occurred on the server.',
-    });
   };
 
   switch (statusCode) {
@@ -35,8 +30,6 @@ const handleMainError = (err, req, res) => {
       res.status(statusCode).send(err);
       break;
     default:
-      SendInternalServerError();
-
       break;
   }
 
@@ -45,7 +38,6 @@ const handleMainError = (err, req, res) => {
       res.status(errorInfoToClient.statusCode).send(errorInfoToClient);
       break;
     default:
-      SendInternalServerError();
       break;
   }
 };
