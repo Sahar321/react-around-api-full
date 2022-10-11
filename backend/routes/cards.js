@@ -1,6 +1,5 @@
-/*eslint-disable*/
-const router = require("express").Router();
-const { celebrate, Joi } = require("celebrate");
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
 
 const {
   getAllCards,
@@ -8,7 +7,7 @@ const {
   deleteCardById,
   unLike,
   addLike,
-} = require("../controllers/cards");
+} = require('../controllers/cards');
 
 const ValidationSchema = {
   createNewCard: celebrate({
@@ -28,14 +27,14 @@ const ValidationSchema = {
   }),
 };
 
-router.get("/cards", getAllCards);
+router.get('/cards', getAllCards);
 
-router.post("/cards", ValidationSchema.createNewCard, createNewCard);
+router.post('/cards', ValidationSchema.createNewCard, createNewCard);
 
-router.delete("/cards/:cardId", deleteCardById);
+router.delete('/cards/:cardId', deleteCardById);
 
-router.delete("/cards/likes/:cardId", unLike);
+router.delete('/cards/likes/:cardId', unLike);
 
-router.put("/cards/likes/:cardId", addLike);
+router.put('/cards/likes/:cardId', addLike);
 
 module.exports = router;

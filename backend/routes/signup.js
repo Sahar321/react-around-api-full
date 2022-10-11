@@ -1,7 +1,6 @@
-/*eslint-disable*/
-const router = require("express").Router();
-const { createNewUser } = require("../controllers/users");
+const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { createNewUser } = require('../controllers/users');
 
 const registerValidationSchema = celebrate({
   body: Joi.object().keys({
@@ -10,9 +9,8 @@ const registerValidationSchema = celebrate({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().uri(),
-  }).unknown(true)});
+  }).unknown(true),
+});
 
-
-
-router.post("/signup", registerValidationSchema, createNewUser);
+router.post('/signup', registerValidationSchema, createNewUser);
 module.exports = router;

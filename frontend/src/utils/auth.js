@@ -1,14 +1,12 @@
-/*eslint-disable*/
 class Auth {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
- 
-    this._headers = {headers:headers};
- 
+
+    this._headers = { headers: headers };
   }
-  
+
   customFetch = (url, options) => {
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwt');
     options.headers.authorization = `Bearer ${token}`;
 
     return fetch(url, options).then(
@@ -43,13 +41,13 @@ class Auth {
 }
 
 const token = localStorage.getItem('jwt');
-const one1 = 'http://localhost:3000'
-const one2 = 'https://api.xvr.students.nomoredomainssbs.ru'
- 
+const one1 = 'http://localhost:3000';
+const one2 = 'https://api.xvr.students.nomoredomainssbs.ru';
+
 const auth = new Auth({
-  baseUrl:   one1,
+  baseUrl: one1,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 });
