@@ -19,7 +19,7 @@ function Card({ card, onCardClick, onCardDelete, onCardLike }) {
   const isOwn =
     owner === currentUser?._id
       ? 'card__delete-card_visibility_isVisible'
-      : 'card__delete-card_visibility_isVisible';
+      : '';
 
   const isLiked = likes.some((user) => user === currentUser._id);
   const isLikedClassName = isLiked ? 'btn-like_state_active' : '';
