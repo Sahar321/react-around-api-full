@@ -1,5 +1,4 @@
-/*eslint-disable*/
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Pattern
 const { imagePattern } = {
@@ -22,12 +21,12 @@ const cardSchema = mongoose.Schema({
       },
     },
   },
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user", default: [] }],
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user', default: [] }],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("card", cardSchema);
+module.exports = mongoose.model('card', cardSchema);

@@ -1,13 +1,11 @@
-/*eslint-disable*/
-const router = require("express").Router();
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
 const {
-  getUserByID,
   getAllUsers,
   updateProfile,
   updateProfileAvatar,
   getUserInfo,
-} = require("../controllers/users");
-const { celebrate, Joi } = require("celebrate");
+} = require('../controllers/users');
 
 const ValidationSchema = {
   updateProfile: celebrate({
@@ -16,7 +14,7 @@ const ValidationSchema = {
         name: Joi.string().required().min(2).max(30),
         about: Joi.string().required().min(2).max(30),
       })
-      .unknown(true)
+      .unknown(true),
   }),
   updateProfileAvatar: celebrate({
     body: Joi.object()
@@ -25,14 +23,13 @@ const ValidationSchema = {
       })
       .unknown(true),
   }),
-}
-
+};
 
 // router.get('/users/:userId', getUserByID);
-router.get("/users", getAllUsers);
-router.get("/users/me", getUserInfo);
+router.get('/users', getAllUsers);
+router.get('/users/me', getUserInfo);
 
-router.patch("/users/me", ValidationSchema.updateProfile, updateProfile);
-router.patch("/users/me/avatar",ValidationSchema.updateProfileAvatar, updateProfileAvatar);
+router.patch('/users/me', ValidationSchema.updateProfile, updateProfile);
+router.patch('/users/me/avatar', ValidationSchema.updateProfileAvatar, updateProfileAvatar);
 
 module.exports = router;

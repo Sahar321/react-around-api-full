@@ -2,7 +2,6 @@
 const jwt = require("jsonwebtoken");
 const InValidRequestError = require("./errors/InValidRequestError");
 module.exports = authorized = (req, res, next) => {
-
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith("Bearer ")) {
     throw new InValidRequestError();
@@ -14,10 +13,9 @@ module.exports = authorized = (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET);
-
   } catch (err) {
     // otherwise, return an error
-    throw new InValidRequestError();
+    //throw new InValidRequestError();
   }
 
   /* Save payload to request. This makes the payload available
