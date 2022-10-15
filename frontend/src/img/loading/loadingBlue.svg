@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="margin:auto;background:0 0;animation-play-state:running;animation-delay:0s" width="234" height="234" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" display="block">
+  <path d="M23 50a27 27 255 0061 10 27 28.4 0 01-60 0" 
+  fill="#93dbe9"
+   style="animation-play-state:running;animation-delay:0s">
+   
+    <animateTransform attributeName="transform"
+     type="rotate" 
+     dur="0.15s"
+      repeatCount="indefinite"
+       keyTimes="0;1" 
+       values="0 50 50.7;360 50 50.7" />
+  </path>
+</svg>
