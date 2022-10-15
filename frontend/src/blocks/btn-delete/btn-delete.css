@@ -1,0 +1,20 @@
+.btn-delete {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  background-repeat: no-repeat;
+  background-image: url(../../img/icons/trash-icon.svg);
+  background-size: 22px 22px;
+  background-position: center;
+  height: 19.3px;
+  width: 18px;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.btn-delete:hover {
+  opacity: 0.6;
+}

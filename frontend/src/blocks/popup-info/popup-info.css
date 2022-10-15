@@ -1,0 +1,16 @@
+.popup-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 0px;
+  min-height: 330px;
+}
+@media screen and (max-width: 480px) {
+  .popup-info {
+    max-width: 280px;
+  }
+}

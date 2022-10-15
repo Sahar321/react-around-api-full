@@ -1,0 +1,23 @@
+.profile__add {
+  width: 150px;
+  height: 50px;
+  display: block;
+  justify-self: self-end;
+  grid-area: btnAdd;
+  align-self: center;
+}
+@media screen and (max-width: 740px) {
+  .profile__add {
+    grid-area: titleAddBtn;
+    align-self: flex-start;
+  }
+}
+@media screen and (max-width: 600px) {
+  .profile__add {
+    max-width: 282px;
+    margin-top: 36px;
+    width: 100%;
+    background-size: 16px 16px;
+    align-self: center;
+  }
+}

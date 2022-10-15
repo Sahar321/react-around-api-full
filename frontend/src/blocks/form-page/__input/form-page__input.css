@@ -1,0 +1,7 @@
+.form-page__input {
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    color: #cccccc;
+    border-bottom: 2px solid #cccccc;
+  }

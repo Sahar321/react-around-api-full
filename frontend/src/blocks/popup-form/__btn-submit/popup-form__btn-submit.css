@@ -1,0 +1,13 @@
+.popup-form__btn-submit {
+  grid-area: btnSubmit;
+  max-width: 358px;
+  height: 50px;
+  margin-top: 48px;
+}
+@media screen and (max-width: 320px) {
+  .popup-form__btn-submit {
+    margin-top: 46px;
+    width: 238px;
+    height: 46px;
+  }
+}
