@@ -1,6 +1,7 @@
-const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
-const { login } = require('../controllers/users');
+/* eslint-disable */
+const router = require("express").Router();
+const { celebrate, Joi } = require("celebrate");
+const { login } = require("../controllers/users");
 
 const LoginValidationSchema = celebrate({
   body: Joi.object()
@@ -8,8 +9,8 @@ const LoginValidationSchema = celebrate({
       email: Joi.string().required().email(),
       password: Joi.string().required().min(6),
     })
-    .unknown(true),
+    .unknown(true)
 });
 
-router.post('/signin', LoginValidationSchema, login);
+router.post("/signin", LoginValidationSchema, login);
 module.exports = router;

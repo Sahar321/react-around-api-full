@@ -4,7 +4,7 @@ const users = require('./users');
 const signin = require('./signin');
 const signup = require('./signup');
 const authorized = require('../middleware/auth');
-
+const NotFoundError = require('../middleware/errors/NotFoundError');
 // USE .ALL - POST/GET SHOULD BE INSIDE
 router.all('/cards*', authorized, cards);
 router.all('/users*', authorized, users);
@@ -22,7 +22,7 @@ router.get('/test', (req, res) => {
 });
 
 router.all('*', (req, res) => {
-  res.status(404).json({ message: 'Requested resource not found' });
+  throw new NotFoundError("Page not found")
 });
 
 module.exports = router;

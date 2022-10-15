@@ -2,12 +2,11 @@
 const { ObjectId } = require('mongodb');
 const Card = require('../models/card');
 const NotFoundError = require('../middleware/errors/NotFoundError');
-const NotAuthorizedError = require('../middleware/errors/NotAuthorizedError');
-
+const ForbiddenError = require('../middleware/errors/ForbiddenError')
 const getAllCards = (req, res, next) => {
   Card.find({})
     .orFail(() => {
-      throw new NotFoundError('Cards Are Empty', false);
+      throw new NotFoundError('Cards Are Empty');
     })
     .then((cards) => {
       res.send(cards);
@@ -36,7 +35,7 @@ const deleteCardById = (req, res, next) => {
     owner: ObjectId(req.user._id),
   })
     .orFail(() => {
-      throw new NotAuthorizedError(true);
+      throw new ForbiddenError("You do not have permissions to delete this card");
     })
     .then((card) => {
       res.send(card);

@@ -52,14 +52,14 @@ class Api {
   }
 
   addLike(cardId) {
-    return this.customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return this.customFetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers.headers,
     });
   }
 
   removeLike(cardId) {
-    return this.customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return this.customFetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers.headers,
     });
@@ -77,7 +77,7 @@ class Api {
 const one1 = 'http://localhost:3000'
 const one2 = 'https://api.xvr.students.nomoredomainssbs.ru'
 const api = new Api({
-  baseUrl: one2, //  "http://localhost:3000"
+  baseUrl: one1, //  "http://localhost:3000"
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

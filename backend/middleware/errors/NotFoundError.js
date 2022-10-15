@@ -1,9 +1,8 @@
 class NotFoundError extends Error {
-  constructor(showError, message) {
+  constructor(message) {
     super(message || 'Resource not found');
     this.statusCode = 404;
-    this.showError = showError;
-    this.error = message || 'Resource not found';
+    this.message = message || 'Resource not found';
   }
 }
 

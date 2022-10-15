@@ -5,6 +5,7 @@ const {
   updateProfile,
   updateProfileAvatar,
   getUserInfo,
+  getUserByID,
 } = require('../controllers/users');
 
 const ValidationSchema = {
@@ -23,11 +24,19 @@ const ValidationSchema = {
       })
       .unknown(true),
   }),
+  userId: celebrate({
+    params: Joi.object()
+      .keys({
+        userId: Joi.string().hex().required(),
+      })
+      .unknown(true),
+  }),
 };
 
-// router.get('/users/:userId', getUserByID);
+
 router.get('/users', getAllUsers);
 router.get('/users/me', getUserInfo);
+router.get('/users/:userId', ValidationSchema.userId, getUserByID);
 
 router.patch('/users/me', ValidationSchema.updateProfile, updateProfile);
 router.patch('/users/me/avatar', ValidationSchema.updateProfileAvatar, updateProfileAvatar);

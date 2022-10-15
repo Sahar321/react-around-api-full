@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
 const container = document.getElementById('root');
 const root = createRoot(container);
-document.title = "around us"
+document.title = "2T the new"
 
 root.render(
   <React.StrictMode>

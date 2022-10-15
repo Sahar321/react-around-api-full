@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bycript = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../middleware/errors/NotFoundError');
+const {defaultJwtSecret} = require("../constant/constant");
+const { JWT_SECRET = defaultJwtSecret } = process.env;
 
 const getUserByID = (req, res, next) => {
   User.findById(req.params.userId)
@@ -37,9 +39,7 @@ const createNewUser = (req, res, next) => {
           res.send({ _id: user._id, email: user.email });
         })
         .catch((err) => {
-          err.mongoMessage = err.message;
-          err.message = 'email is alarady exist';
-          next(err);
+          next( new NotFoundError("email is already exist"));
         });
     })
     .catch((err) => {
@@ -90,7 +90,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const jwtToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      const jwtToken = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
       return res.send({ token: jwtToken });

@@ -1,9 +1,8 @@
 class InValidRequestError extends Error {
-  constructor(showError, message) {
+  constructor(message) {
     super(message || 'request is invalid');
     this.statusCode = 400;
-    this.showError = showError;
-    this.error = message || 'request is invalid';
+    this.message = message || 'request is invalid';
   }
 }
 

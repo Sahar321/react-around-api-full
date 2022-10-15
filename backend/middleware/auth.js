@@ -1,10 +1,13 @@
 /* eslint-disable */
 const jwt = require("jsonwebtoken");
-const InValidRequestError = require("./errors/InValidRequestError");
+const UnauthorizedError = require("./errors/UnauthorizedError");
+const defaultJwtSecret = require("../constant/constant");
 module.exports = authorized = (req, res, next) => {
+
+  const { JWT_SECRET = defaultJwtSecret } = process.env;
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    throw new InValidRequestError();
+    throw new UnauthorizedError();
   }
 
   const token = authorization.replace("Bearer ", "");
@@ -12,7 +15,7 @@ module.exports = authorized = (req, res, next) => {
   // if token is verified, save the payload
   let payload;
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // otherwise, return an error
     //throw new InValidRequestError();
