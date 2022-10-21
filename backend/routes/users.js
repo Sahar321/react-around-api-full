@@ -33,7 +33,6 @@ const ValidationSchema = {
   }),
 };
 
-
 router.get('/users', getAllUsers);
 router.get('/users/me', getUserInfo);
 router.get('/users/:userId', ValidationSchema.userId, getUserByID);

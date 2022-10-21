@@ -2,6 +2,7 @@ const { isEmail, isURL } = require('validator');
 const mongoose = require('mongoose');
 const bycript = require('bcryptjs');
 const UnauthorizedError = require('../middleware/errors/UnauthorizedError');
+
 const userSchema = mongoose.Schema({
   email: {
     type: String,
@@ -50,16 +51,16 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     .select('password')
     .then((user) => {
       if (!user) {
-        //error: user not found
+        // error: user not found
         throw new UnauthorizedError('The username or password is incorrect');
-        //const err = new error('user not found');
-        //err.name = 'userNotFound';
-        //return Promise.reject(err);
+        // const err = new error('user not found');
+        // err.name = 'userNotFound';
+        // return Promise.reject(err);
       }
 
       return bycript.compare(password, user.password).then((matched) => {
         if (!matched) {
-        throw new UnauthorizedError("The username or password is incorrect")
+          throw new UnauthorizedError('The username or password is incorrect');
         }
         return user;
       });

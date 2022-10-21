@@ -46,8 +46,8 @@ function App() {
   // #region app handlers
   //validation body message
   const handleError = (error) => {
-console.log("xas",error);
-    const {message} = error
+    closeAllPopups()
+    const { message } = error;
     const errorText = message || 'something want wrong..';
     setInfoToolTipMessage({ type: 'failed', text: errorText });
     setIsInfoToolTipPopupOpen(true);

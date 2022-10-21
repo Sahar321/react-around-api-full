@@ -21,8 +21,8 @@ router.get('/test', (req, res) => {
   res.send('server work');
 });
 
-router.all('*', (req, res) => {
-  throw new NotFoundError("Page not found")
+router.all('*', () => {
+  throw new NotFoundError('Page not found');
 });
 
 module.exports = router;

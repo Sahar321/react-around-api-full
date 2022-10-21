@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bycript = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../middleware/errors/NotFoundError');
+const ConflictError = require('../middleware/errors/ConflictError');
 const {defaultJwtSecret} = require("../constant/constant");
 const { JWT_SECRET = defaultJwtSecret } = process.env;
 
@@ -39,7 +40,7 @@ const createNewUser = (req, res, next) => {
           res.send({ _id: user._id, email: user.email });
         })
         .catch((err) => {
-          next( new NotFoundError("email is already exist"));
+          next( new ConflictError("email is already exist"));
         });
     })
     .catch((err) => {

@@ -1,13 +1,13 @@
-require("dotenv").config();
-const cors = require("cors");
-const express = require("express");
-const { errors } = require("celebrate");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
-const router = require("./routes/router");
-const rateLimit = require("express-rate-limit");
-const TooManyRequestsError = require("./middleware/errors/TooManyRequestsError");
+require('dotenv').config();
+const cors = require('cors');
+const express = require('express');
+const { errors, isCelebrateError } = require('celebrate');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const router = require('./routes/router');
+const TooManyRequestsError = require('./middleware/errors/TooManyRequestsError');
 
 // Apply the rate limiting middleware to all requests
 
@@ -21,43 +21,22 @@ const limiter = rateLimit({
     throw new TooManyRequestsError();
   },
 });
-const { requestLogger, errorLogger } = require("./middleware/logger");
+const { requestLogger, errorLogger } = require('./middleware/logger');
 // settings
 const { PORT = 3000 } = process.env;
 const handleMainError = (err, req, res, next) => {
-  const { statusCode, code, message, details, errors } = err;
-  let { errorMessage = message, httpErrorCode = statusCode } = err;
-  //check for celebrate error
-  details?.forEach((errors) => {
-    errors.details.forEach((error) => {
-      errorMessage = `${error.message}\n`;
-    });
-    httpErrorCode = 400;
+  // if an error has no status, display 500
+  let { statusCode = 500 } = err;
+  const { message } = err;
+  // change status code if is CelebrateError, otherwise
+  // it will send the default error message
+  if (isCelebrateError(err)) {
+    statusCode = 400;
+  }
+
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'An error occurred on the server' : message,
   });
-
-if (errors){
-  for (const [key, value] of Object.entries(errors)) {
-    errorMessage = `${key}: ${value}\n`
-  }
-  httpErrorCode = 400;
-}
-  //check for mongo  error
-  switch (code) {
-    case 11000:
-      errorMessage = "email not exist";
-      httpErrorCode = 404;
-      break;
-    default:
-      break;
-  }
-
-  // if error empty, send default server error
-  if (!httpErrorCode) {
-    httpErrorCode = 500;
-    errorMessage = "An error has occurred on the server";
-  }
-
-  res.status(httpErrorCode).send({ message: errorMessage });
 };
 
 /// Middleware's
@@ -66,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
-app.options("*", cors());
+app.options('*', cors());
 app.use(limiter);
 // app middleware
 app.use(errors());
@@ -77,7 +56,7 @@ app.use(errorLogger);
 app.use(handleMainError);
 
 // database
-mongoose.connect("mongodb://localhost:27017/aroundb");
+mongoose.connect('mongodb://localhost:27017/aroundb');
 
 // Server
 app.listen(PORT);
