@@ -74,10 +74,9 @@ class Api {
   }
 }
 
-const one1 = 'http://localhost:3000'
-const one2 = 'https://api.xvr.students.nomoredomainssbs.ru'
+const localhost = 'http://localhost:3001'
 const api = new Api({
-  baseUrl: one1, //  "http://localhost:3000"
+  baseUrl: localhost, //  "http://localhost:3000"
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
