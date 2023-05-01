@@ -23,7 +23,7 @@ const limiter = rateLimit({
 });
 const { requestLogger, errorLogger } = require('./middleware/logger');
 // settings
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const handleMainError = (err, req, res, next) => {
   // if an error has no status, display 500
   let { statusCode = 500 } = err;
