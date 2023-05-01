@@ -45,11 +45,15 @@ function App() {
   const token = localStorage.getItem('jwt');
   // #region app handlers
   //validation body message
-  const handleError = (error) => {
-    closeAllPopups()
-    const { message } = error;
-    const errorText = message || 'something want wrong..';
-    setInfoToolTipMessage({ type: 'failed', text: errorText });
+  const handleError = ({ message }) => {
+    closeAllPopups();
+  
+    const errorMessage =
+      message === 'Failed to fetch'
+        ? 'Server isn\'t available right now, Please try again later.'
+        : message || 'something went wrong..';
+
+    setInfoToolTipMessage({ type: 'failed', text: errorMessage });
     setIsInfoToolTipPopupOpen(true);
   };
   // #endregion app handlers
