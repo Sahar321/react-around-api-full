@@ -31,7 +31,7 @@ function Login({ onLogin }) {
         <input
           className="textbox form-page__input"
           placeholder="Email"
-          type="text"
+          type="email"
           required
           name="email"
           value={email}
@@ -41,6 +41,7 @@ function Login({ onLogin }) {
           className="textbox form-page__input form-page__input_type_email textbox-Email"
           placeholder="Password"
           type="password"
+          minLength="6"
           required
           name="password"
           value={password}
