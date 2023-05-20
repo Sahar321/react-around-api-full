@@ -8,9 +8,10 @@
   min-width: 120px;
   padding: 0px;
   min-height: 330px;
+  justify-self: center;
 }
 @media screen and (max-width: 480px) {
   .popup-info {
-    max-width: 280px;
+    max-width: 96%;
   }
 }

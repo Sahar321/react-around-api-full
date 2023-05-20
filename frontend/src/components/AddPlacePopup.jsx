@@ -53,6 +53,8 @@ function AddPlacePopup({
         name="link"
         id="cardURL"
         placeholder="Image URL"
+        pattern=".*\.(jpg|jpeg|png|gif|webp)"
+        title="Please ensure that the URL provided for the image is a valid image URL ending with .jpg, .jpeg, .png, or .gif extensions."
         ref={linkRef}
       />
       <span id="cardURL-error"></span>
