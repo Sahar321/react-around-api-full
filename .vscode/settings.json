@@ -1,9 +1,4 @@
 {
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#08286E",
-        "titleBar.activeBackground": "#0C389A",
-        "titleBar.activeForeground": "#FAFBFF"
-    },
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
