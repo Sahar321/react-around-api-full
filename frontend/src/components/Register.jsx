@@ -28,7 +28,7 @@ export function Register({ onRegister }) {
         <input
           className="textbox form-page__input"
           placeholder="Email"
-          type="text"
+          type="email"
           required
           name="email"
           value={email}
@@ -39,6 +39,8 @@ export function Register({ onRegister }) {
           placeholder="Password"
           type="password"
           required
+          minLength="6"
+          maxLength="30"
           name="password"
           value={password}
           onChange={handlePasswordChange}
