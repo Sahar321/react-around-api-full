@@ -73,10 +73,10 @@ class Api {
     });
   }
 }
-
+const server = 'api.aroundUS.saharm.com'
 const localhost = 'http://localhost:3001'
 const api = new Api({
-  baseUrl: localhost, //  "http://localhost:3000"
+  baseUrl: server, //  "http://localhost:3000"
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
