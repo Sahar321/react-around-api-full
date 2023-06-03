@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build/* ./build/* saharm123456@104.199.113.93:/home/saharm123456/apps/react-around-api-full/frontend"
+    "deploy": "npm run build && scp -r ./build/* ./build/* saharm123456@34.165.149.151:/home/saharm123456/apps/aroundUS/frontend/build"
   },
   "eslintConfig": {
     "extends": [
